@@ -16,7 +16,7 @@ class WelcomeBackScaffold extends StatelessWidget {
         child: Container(
           color: Colors.blueGrey,
           child: Padding(
-            padding: EdgeInsets.only(bottom: height * 0.0504),
+            padding: EdgeInsets.only(bottom: height * 0.00862),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

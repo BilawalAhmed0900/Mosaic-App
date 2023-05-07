@@ -155,7 +155,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
                             title: const Text("Successfully signed-in"),
-                            content: Text(value.toString()),
+                            content: Text("Logged in as: ${json.decode(value.body)["data"]["email"]}"),
                           );
                         });
                       }).onError((error, stackTrace) {
