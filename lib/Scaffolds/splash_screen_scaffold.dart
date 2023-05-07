@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mosaic_app/Scaffolds/tips_page_1.dart';
+import 'package:mosaic_app/Scaffolds/welcome_back_scaffold.dart';
 
 class SplashScreenPageScaffold extends StatelessWidget {
   const SplashScreenPageScaffold({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class SplashScreenPageScaffold extends StatelessWidget {
 
     Future.delayed(const Duration(seconds: 1)).then((value) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-        return const TipsPage1Scaffold();
+        return const WelcomeBackScaffold();
       }));
     });
 

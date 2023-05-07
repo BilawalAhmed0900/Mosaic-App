@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.5
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,10 @@ flutter:
   assets:
     - assets/svgs/logo.svg
     - assets/svgs/mini_logo.svg
+    - assets/svgs/mini_logo_white.svg
+    - assets/svgs/google-icon.svg
+    - assets/svgs/facebook-icon.svg
+    - assets/svgs/apple-icon.svg
     - assets/svgs/TipsPage1Svg1.svg
     - assets/svgs/TipsPage1Svg2.svg
 
