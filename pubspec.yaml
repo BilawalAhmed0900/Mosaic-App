@@ -69,6 +69,7 @@ flutter:
     - assets/svgs/apple-icon.svg
     - assets/svgs/TipsPage1Svg1.svg
     - assets/svgs/TipsPage1Svg2.svg
+    - assets/images/welcome_back_page_background.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
