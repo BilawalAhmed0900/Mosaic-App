@@ -157,8 +157,9 @@ class WelcomeBackScaffold extends StatelessWidget {
                         Text(
                           "Don't have an account?",
                           style: TextStyle(
-                              color: const Color(0x54FFFFFF),
-                              fontSize: width * height * 0.0000426),
+                            color: const Color(0x54FFFFFF),
+                            fontSize: width * height * 0.0000426,
+                          ),
                         ),
                         const SizedBox(width: 5),
                         InkWell(
