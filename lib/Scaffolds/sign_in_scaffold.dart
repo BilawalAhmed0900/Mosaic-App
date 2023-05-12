@@ -4,7 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
+import 'package:mosaic_app/Data/user.dart';
 import 'package:mosaic_app/Scaffolds/sign_up_scaffold.dart';
+import 'package:mosaic_app/Scaffolds/watch_page_scaffold.dart';
 
 import '../Constants/constants.dart';
 
@@ -51,10 +53,14 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Welcome to mosaic",
+                      "Welcome to ",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: width * height * 0.0000919),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.00739),
+                      child: SvgPicture.asset("assets/svgs/mosaic_written.svg", height: height * 0.0246, width: width * 0.256,),
                     ),
                   ],
                 ),
@@ -152,12 +158,34 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       Encoding encoding = Encoding.getByName("utf-8")!;
 
                       post(uri, headers: headers, body: jsonString, encoding: encoding).then((value) {
-                        showDialog(context: context, builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Successfully signed-in"),
-                            content: Text("Logged in as: ${json.decode(value.body)["data"]["email"]}"),
-                          );
-                        });
+                        Map<String, dynamic> jsonBody = json.decode(value.body);
+                        print(jsonBody);
+                        if (jsonBody["status"] as int == 0) {
+                          User.getInstance().oAuth2 = "";
+                          User.getInstance().userName = "";
+                          User.getInstance().email = "";
+                          User.getInstance().firstName = "";
+                          User.getInstance().lastName = "";
+                          showDialog(context: context, builder: (context) {
+                            return const AlertDialog(
+                              title: Text("Check your credentials"),
+                              content: Text(""),
+                            );
+                          });
+
+                          return;
+                        }
+
+                        User.getInstance().oAuth2 = jsonBody["data"]["token"].toString();
+                        User.getInstance().userName = jsonBody["data"]["userName"] as String;
+                        User.getInstance().email = jsonBody["data"]["email"] as String;
+                        User.getInstance().firstName = (jsonBody["data"]["firstName"] as String?) ?? "";
+                        User.getInstance().lastName = (jsonBody["data"]["lastName"] as String?) ?? "";
+
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          return const WatchVideoScaffold();
+                        }));
                       }).onError((error, stackTrace) {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
