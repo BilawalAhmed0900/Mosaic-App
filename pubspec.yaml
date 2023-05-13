@@ -74,6 +74,7 @@ flutter:
     - assets/svgs/mosaic_written.svg
     - assets/svgs/arrow_upward.svg
     - assets/svgs/arrow_downward.svg
+    - assets/svgs/arrow_leftward.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

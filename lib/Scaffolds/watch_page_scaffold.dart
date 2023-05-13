@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mosaic_app/Constants/constants.dart';
+import 'package:mosaic_app/Scaffolds/search_page_scaffold.dart';
 
 import 'package:wheel_chooser/wheel_chooser.dart';
 
@@ -45,7 +46,11 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                            return const SearchPageScaffold();
+                          }));
+                        },
                         child: Icon(
                           Icons.search,
                           color: const Color(0xFFFFFFFF),
