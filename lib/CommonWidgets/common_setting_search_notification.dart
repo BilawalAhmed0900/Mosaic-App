@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mosaic_app/Scaffolds/account_page_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/settings_page_scaffold.dart';
 
 List<Widget> commonSettingSearchNotification(BuildContext context, String heading, [bool isSettingPage = false]) {
@@ -25,13 +26,11 @@ List<Widget> commonSettingSearchNotification(BuildContext context, String headin
             ),
           ),
           InkWell(
-            onTap: () {
-              if (!isSettingPage) {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return const SettingsPageScaffold();
-                }));
-              }
-            },
+            onTap: (!isSettingPage) ? () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const SettingsPageScaffold();
+              }));
+            } : null,
             child: Icon(
               Icons.apps,
               color: Colors.black,
@@ -48,7 +47,11 @@ List<Widget> commonSettingSearchNotification(BuildContext context, String headin
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(heading, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: width * height * 0.0000919),),
-          CircleAvatar(radius: width * height * 0.0000525, child: const Icon(Icons.circle_outlined),),
+          InkWell(onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return const AccountPageScaffold();
+            }));
+          }, child: CircleAvatar(radius: width * height * 0.0000525, child: const Icon(Icons.supervised_user_circle_outlined),)),
         ],
       ),
     ),
