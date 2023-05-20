@@ -1,4 +1,4 @@
-const String HOST = "http://192.168.80.134";
+const String HOST = "http://192.168.80.156";
 const int PORT = 5000;
 const String SIGNUP_PATH = "api/auth/sign-up";
 const String SIGNIN_PATH = "api/auth/sign-in";

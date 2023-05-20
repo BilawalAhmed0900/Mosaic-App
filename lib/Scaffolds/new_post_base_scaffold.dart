@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../CommonWidgets/common_setting_search_notification.dart';
 
@@ -35,7 +36,11 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      ImagePicker().pickVideo(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front).then((value) {
+                        print(value?.path);
+                      });
+                    },
                     child: Container(
                       width: width * 0.445,
                       height: height * 0.283,
@@ -64,7 +69,11 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      ImagePicker().pickVideo(source: ImageSource.gallery).then((value) {
+                        print(value?.path);
+                      });
+                    },
                     child: Container(
                       width: width * 0.445,
                       height: height * 0.283,
