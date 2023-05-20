@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-ListView createView(BuildContext context, List<String> labels, List<Icon> icons, List<VoidCallback?> actions) {
+ListView createView(BuildContext context, List<String> labels, List<SvgPicture> icons, List<VoidCallback?> actions) {
   assert(labels.length == icons.length);
   assert(labels.length == actions.length);
   assert(labels.length == 4);

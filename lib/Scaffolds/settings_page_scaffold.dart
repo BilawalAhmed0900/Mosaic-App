@@ -52,7 +52,7 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.0123),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.008),
                             child: createView(
                               context,
                               [
@@ -61,11 +61,39 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
                                 "Rate Us",
                                 "Share App",
                               ],
-                              const [
-                                Icon(Icons.account_box),
-                                Icon(Icons.notifications_active),
-                                Icon(Icons.star_rate),
-                                Icon(Icons.share),
+                              [
+                                SvgPicture.asset(
+                                  "assets/svgs/your_account_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/notifications_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/rate_us_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/share_app_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
                               ],
                               [
                                 () {
@@ -96,7 +124,7 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.0123),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.008),
                             child: createView(
                               context,
                               [
@@ -105,11 +133,39 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
                                 "Security",
                                 "About",
                               ],
-                              const [
-                                Icon(Icons.privacy_tip_outlined),
-                                Icon(Icons.help),
-                                Icon(Icons.security),
-                                Icon(Icons.info),
+                              [
+                                SvgPicture.asset(
+                                  "assets/svgs/privacy_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/help_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/security_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/svgs/about_icon.svg",
+                                  theme: const SvgTheme(
+                                    currentColor: Color(0xFFFFFFFF),
+                                  ),
+                                  width: width * 0.075,
+                                  height: height * 0.034,
+                                ),
                               ],
                               [
                                 null,
