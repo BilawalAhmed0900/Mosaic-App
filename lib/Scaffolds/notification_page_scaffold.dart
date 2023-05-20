@@ -24,7 +24,7 @@ class _NotificationPageScaffoldState extends State<NotificationPageScaffold> {
             SizedBox(
               height: height * 0.0652,
             ),
-            ...commonSettingSearchNotification(context, "Notifications", false),
+            ...commonSettingSearchNotification(context, "Notifications"),
             SizedBox(
               height: height * 0.0147,
             ),

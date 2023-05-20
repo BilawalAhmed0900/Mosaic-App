@@ -30,7 +30,7 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
               SizedBox(
                 height: height * 0.0652,
               ),
-              ...commonSettingSearchNotification(context, "Settings", true),
+              ...commonSettingSearchNotification(context, "Settings", isSettingPage: true),
               SizedBox(
                 height: height * 0.0147,
               ),
