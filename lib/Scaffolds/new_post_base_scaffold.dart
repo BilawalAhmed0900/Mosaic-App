@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mosaic_app/Scaffolds/edit_video_scaffold.dart';
+import 'package:video_editor/video_editor.dart';
 
 import '../CommonWidgets/common_setting_search_notification.dart';
+
+Future<XFile?> editVideo(BuildContext context, XFile? file) async {
+  if (file == null) return null;
+
+  return await Navigator.of(context).push<XFile?>(MaterialPageRoute(builder: (context) {
+    return EditVideoScaffold(originalVideo: file,);
+  }));
+}
 
 class NewPostBaseScaffold extends StatefulWidget {
   const NewPostBaseScaffold({Key? key}) : super(key: key);
@@ -38,7 +48,9 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                   InkWell(
                     onTap: () {
                       ImagePicker().pickVideo(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front).then((value) {
-                        print(value?.path);
+                        editVideo(context, value).then((value) {
+                          print(value?.path);
+                        });
                       });
                     },
                     child: Container(
@@ -71,7 +83,9 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                   InkWell(
                     onTap: () {
                       ImagePicker().pickVideo(source: ImageSource.gallery).then((value) {
-                        print(value?.path);
+                        editVideo(context, value).then((value) {
+                          print(value?.path);
+                        });
                       });
                     },
                     child: Container(

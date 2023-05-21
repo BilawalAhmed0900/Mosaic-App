@@ -39,6 +39,10 @@ dependencies:
   http: ^0.13.6
   wheel_chooser: ^1.1.2
   image_picker: ^0.8.7+5
+  video_editor: ^2.4.0
+
+dependency_overrides:
+  ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS
 
 dev_dependencies:
   flutter_test:
