@@ -128,9 +128,9 @@ class _EditVideoScaffoldState extends State<EditVideoScaffold> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
