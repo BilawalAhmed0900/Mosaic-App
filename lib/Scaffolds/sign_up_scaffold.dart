@@ -181,7 +181,7 @@ class _SignUpScaffoldState extends State<SignUpScaffold> {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
                             title: const Text("Successfully created a user"),
-                            content: Text(value.toString()),
+                            content: Text(value.body),
                           );
                         });
                       }).onError((error, stackTrace) {

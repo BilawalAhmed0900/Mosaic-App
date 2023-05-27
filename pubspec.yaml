@@ -40,6 +40,7 @@ dependencies:
   wheel_chooser: ^1.1.2
   image_picker: ^0.8.7+5
   video_editor: ^2.4.0
+  bottom_drawer: ^0.0.5
 
 dependency_overrides:
   ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS

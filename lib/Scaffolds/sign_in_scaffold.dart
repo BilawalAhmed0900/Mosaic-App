@@ -158,6 +158,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       Encoding encoding = Encoding.getByName("utf-8")!;
 
                       post(uri, headers: headers, body: jsonString, encoding: encoding).then((value) {
+                        print(value.body);
                         Map<String, dynamic> jsonBody = json.decode(value.body);
                         print(jsonBody);
                         if (jsonBody["status"] as int == 0) {
