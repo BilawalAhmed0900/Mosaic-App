@@ -93,6 +93,8 @@ flutter:
     - assets/svgs/rate_us_icon.svg
     - assets/svgs/notifications_icon.svg
     - assets/svgs/your_account_icon.svg
+    - assets/svgs/profile_icon.svg
+    - assets/svgs/notification_with_dot.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
