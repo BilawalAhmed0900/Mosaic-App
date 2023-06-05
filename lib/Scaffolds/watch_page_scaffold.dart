@@ -148,6 +148,7 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
                           selectTextStyle: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontSize: width * height * 0.0000262,
+                            fontWeight: FontWeight.w600,
                           ),
                           unSelectTextStyle: TextStyle(
                             color: const Color(0xFFFFFFFF),
