@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,19 +19,38 @@ class SettingsPageScaffold extends StatefulWidget {
 
 class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
   final BottomDrawerController _controller = BottomDrawerController();
-  bool _isControllerOpen = false;
+  final ValueNotifier<int> _backgroundOpacity = ValueNotifier<int>(0);
 
   void setControllerOpenBoolState(bool state) {
-    print("_SettingsPageScaffoldState $state");
-    setState(() {
-      _isControllerOpen = state;
-    });
+    if (state) {
+      int i = 0;
+      Timer.periodic(const Duration(milliseconds: 1), (timer) {
+        if (i > 250) {
+          timer.cancel();
+          return;
+        }
+
+        _backgroundOpacity.value = i++;
+      });
+    } else {
+      int i = 250;
+      Timer.periodic(const Duration(milliseconds: 1), (timer) {
+        if (i < 0) {
+          timer.cancel();
+          return;
+        }
+
+        _backgroundOpacity.value = i--;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    print(_backgroundOpacity.value);
 
     return Scaffold(
       body: SafeArea(
@@ -197,11 +218,17 @@ class _SettingsPageScaffoldState extends State<SettingsPageScaffold> {
                   ),
                 ],
               ),
-              (_isControllerOpen)
-                  ? Container(
-                      color: Colors.black.withOpacity(0.5),
-                    )
-                  : Container(),
+              ValueListenableBuilder<int>(
+                valueListenable: _backgroundOpacity,
+                builder: (context, value, _) {
+                  if (value == 0) {
+                    return Container();
+                  }
+                  return Container(
+                    color: Colors.black.withOpacity(value / 250.0 * 0.33),
+                  );
+                },
+              ),
               buildBottomDrawer(context, _controller, setControllerOpenBoolState),
             ],
           ),

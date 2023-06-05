@@ -7,8 +7,7 @@ import '../Scaffolds/new_post_base_scaffold.dart';
 import '../Scaffolds/notification_page_scaffold.dart';
 import '../Scaffolds/settings_page_scaffold.dart';
 
-Widget buildBottomDrawer(BuildContext context,
-    BottomDrawerController controller, void Function(bool) callback) {
+Widget buildBottomDrawer(BuildContext context, BottomDrawerController controller, void Function(bool) callback) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
@@ -121,11 +120,9 @@ Widget buildBottomDrawer(BuildContext context,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset("assets/svgs/mini_logo.svg",
-                  width: width * 0.085, height: height * 0.031),
+              SvgPicture.asset("assets/svgs/mini_logo.svg", width: width * 0.085, height: height * 0.031),
               SizedBox(width: width * 0.029),
-              SvgPicture.asset("assets/svgs/mosaic_written.svg",
-                  width: width * 0.344, height: height * 0.027),
+              SvgPicture.asset("assets/svgs/mosaic_written.svg", width: width * 0.344, height: height * 0.027),
             ],
           ),
           SizedBox(
@@ -153,8 +150,7 @@ Widget buildBottomDrawer(BuildContext context,
                               ),
                               Text(
                                 labels[index],
-                                style: TextStyle(
-                                    fontSize: width * height * 5.583e-5),
+                                style: TextStyle(fontSize: width * height * 5.583e-5),
                               ),
                             ],
                           ),

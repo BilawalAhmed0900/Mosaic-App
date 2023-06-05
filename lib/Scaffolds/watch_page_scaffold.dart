@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mosaic_app/Constants/constants.dart';
@@ -55,12 +57,30 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
   ];
 
   final BottomDrawerController _controller = BottomDrawerController();
-  bool _isControllerOpen = false;
+  final ValueNotifier<int> _backgroundOpacity = ValueNotifier<int>(0);
 
   void setControllerOpenBoolState(bool state) {
-    setState(() {
-      _isControllerOpen = state;
-    });
+    if (state) {
+      int i = 0;
+      Timer.periodic(const Duration(milliseconds: 1), (timer) {
+        if (i > 250) {
+          timer.cancel();
+          return;
+        }
+
+        _backgroundOpacity.value = i++;
+      });
+    } else {
+      int i = 250;
+      Timer.periodic(const Duration(milliseconds: 1), (timer) {
+        if (i < 0) {
+          timer.cancel();
+          return;
+        }
+
+        _backgroundOpacity.value = i--;
+      });
+    }
   }
 
   @override
@@ -337,11 +357,17 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
                 ),
               ],
             ),
-            (_isControllerOpen)
-                ? Container(
-                    color: Colors.black.withOpacity(0.5),
-                  )
-                : Container(),
+            ValueListenableBuilder<int>(
+              valueListenable: _backgroundOpacity,
+              builder: (context, value, _) {
+                if (value == 0) {
+                  return Container();
+                }
+                return Container(
+                  color: Colors.black.withOpacity(value / 250.0 * 0.33),
+                );
+              },
+            ),
             buildBottomDrawer(context, _controller, setControllerOpenBoolState),
           ],
         ),
