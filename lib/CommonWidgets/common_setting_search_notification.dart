@@ -1,10 +1,11 @@
+import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mosaic_app/Scaffolds/account_page_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/settings_page_scaffold.dart';
 
-List<Widget> commonSettingSearchNotification(BuildContext context, String heading,
-    {bool isSettingPage = false, bool showAccountIcon = true, bool showSettingIcon = true}) {
+List<Widget> commonSettingSearchNotification(BuildContext context, String heading, BottomDrawerController? controller,
+    {bool showAccountIcon = true, bool showSettingIcon = true}) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
@@ -20,31 +21,32 @@ List<Widget> commonSettingSearchNotification(BuildContext context, String headin
             },
             child: Row(
               children: [
-                SvgPicture.asset("assets/svgs/arrow_leftward.svg",
-                    theme: const SvgTheme(
-                      currentColor: Color(0xFF007AFF),
-                    ),
-                    width: width * 0.016,
-                    height: height * 0.0147),
+                SvgPicture.asset(
+                  "assets/svgs/arrow_leftward.svg",
+                  theme: const SvgTheme(
+                    currentColor: Color(0xFF007AFF),
+                  ),
+                  width: width * 0.016,
+                  height: height * 0.0147,
+                ),
                 SizedBox(
                   width: width * 0.024,
                 ),
                 Text(
                   "Back",
-                  style: TextStyle(color: const Color(0xFF007AFF), fontSize: width * height * 0.0000558),
+                  style: TextStyle(
+                    color: const Color(0xFF007AFF),
+                    fontSize: width * height * 0.0000558,
+                  ),
                 ),
               ],
             ),
           ),
           (showSettingIcon)
               ? InkWell(
-                  onTap: (!isSettingPage)
-                      ? () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                            return const SettingsPageScaffold();
-                          }));
-                        }
-                      : null,
+                  onTap: () {
+                    controller?.open();
+                  },
                   child: Icon(
                     Icons.apps,
                     color: Colors.black,

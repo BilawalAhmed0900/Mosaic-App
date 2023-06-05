@@ -31,10 +31,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
         child: Container(
           color: /*const Color(0xFFBBBBBB)*/ Colors.white,
           child: Padding(
-            padding: EdgeInsets.only(
-                top: height * 0.0738,
-                left: width * 0.0426,
-                right: width * 0.0426),
+            padding: EdgeInsets.only(top: height * 0.0738, left: width * 0.0426, right: width * 0.0426),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -54,13 +51,15 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   children: [
                     Text(
                       "Welcome to ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: width * height * 0.0000919),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 0.0000919),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: height * 0.00739),
-                      child: SvgPicture.asset("assets/svgs/mosaic_written.svg", height: height * 0.0246, width: width * 0.256,),
+                      child: SvgPicture.asset(
+                        "assets/svgs/mosaic_written.svg",
+                        height: height * 0.0246,
+                        width: width * 0.256,
+                      ),
                     ),
                   ],
                 ),
@@ -70,9 +69,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   children: [
                     Text(
                       "Please use your email address and",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: width * height * 0.0000525),
+                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: width * height * 0.0000525),
                     ),
                   ],
                 ),
@@ -81,9 +78,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   children: [
                     Text(
                       "password to login",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: width * height * 0.0000525),
+                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: width * height * 0.0000525),
                     ),
                   ],
                 ),
@@ -134,9 +129,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       onTap: () {},
                       child: Text(
                         "Forgot password?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: width * height * 0.0000525),
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: width * height * 0.0000525),
                       ),
                     )
                   ],
@@ -147,10 +140,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   height: height * 0.0665,
                   child: OutlinedButton(
                     onPressed: () {
-                      Map<String, dynamic> map = {
-                        "email": _emailController.text,
-                        "password": _passwordController.text
-                      };
+                      Map<String, dynamic> map = {"email": _emailController.text, "password": _passwordController.text};
 
                       String jsonString = json.encode(map);
                       Map<String, String> headers = {"Content-Type": "application/json"};
@@ -167,12 +157,14 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                           User.getInstance().email = "";
                           User.getInstance().firstName = "";
                           User.getInstance().lastName = "";
-                          showDialog(context: context, builder: (context) {
-                            return const AlertDialog(
-                              title: Text("Check your credentials"),
-                              content: Text(""),
-                            );
-                          });
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const AlertDialog(
+                                  title: Text("Check your credentials"),
+                                  content: Text(""),
+                                );
+                              });
 
                           return;
                         }
@@ -188,12 +180,14 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                           return const WatchVideoScaffold();
                         }));
                       }).onError((error, stackTrace) {
-                        showDialog(context: context, builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Check your credentials"),
-                            content: Text(error.toString()),
-                          );
-                        });
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Check your credentials"),
+                                content: Text(error.toString()),
+                              );
+                            });
                       });
                     },
                     style: OutlinedButton.styleFrom(
@@ -217,8 +211,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                   width: width * 0.914,
                   height: height * 0.0665,
                   child: OutlinedButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color(0xFFF4F4F5),
                       shape: RoundedRectangleBorder(
@@ -240,7 +233,10 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("OR", style: TextStyle(color: const Color(0xFF3C3C43), fontSize: width * height * 0.0000426),),
+                    Text(
+                      "OR",
+                      style: TextStyle(color: const Color(0xFF3C3C43), fontSize: width * height * 0.0000426),
+                    ),
                   ],
                 ),
                 SizedBox(height: height * 0.0418),
@@ -252,17 +248,29 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       CircleAvatar(
                         radius: width * height * 0.000114,
                         backgroundColor: const Color(0xFFF0F0F0),
-                        child: SvgPicture.asset("assets/svgs/google-icon.svg", width: min(width * 0.064, height * 0.0295), height: min(width * 0.064, height * 0.0295),),
+                        child: SvgPicture.asset(
+                          "assets/svgs/google-icon.svg",
+                          width: min(width * 0.064, height * 0.0295),
+                          height: min(width * 0.064, height * 0.0295),
+                        ),
                       ),
                       CircleAvatar(
                         radius: width * height * 0.000114,
                         backgroundColor: const Color(0xFFF0F0F0),
-                        child: SvgPicture.asset("assets/svgs/facebook-icon.svg", width: min(width * 0.064, height * 0.0295), height: min(width * 0.064, height * 0.0295),),
+                        child: SvgPicture.asset(
+                          "assets/svgs/facebook-icon.svg",
+                          width: min(width * 0.064, height * 0.0295),
+                          height: min(width * 0.064, height * 0.0295),
+                        ),
                       ),
                       CircleAvatar(
                         radius: width * height * 0.000114,
                         backgroundColor: const Color(0xFFF0F0F0),
-                        child: SvgPicture.asset("assets/svgs/apple-icon.svg", width: min(width * 0.064, height * 0.0295), height: min(width * 0.064, height * 0.0295),),
+                        child: SvgPicture.asset(
+                          "assets/svgs/apple-icon.svg",
+                          width: min(width * 0.064, height * 0.0295),
+                          height: min(width * 0.064, height * 0.0295),
+                        ),
                       ),
                     ],
                   ),
@@ -271,16 +279,24 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?", style: TextStyle(color: const Color(0x4C3C3C43), fontWeight: FontWeight.w600, fontSize: width * height * 0.0000426),),
-                    const SizedBox(width: 5,),
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: const Color(0x4C3C3C43), fontWeight: FontWeight.w600, fontSize: width * height * 0.0000426),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                           return const SignUpScaffold();
                         }));
                       },
-                      child: Text("Register", style: TextStyle(fontWeight: FontWeight.w600, fontSize: width * height * 0.0000426),),
+                      child: Text(
+                        "Register",
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: width * height * 0.0000426),
+                      ),
                     )
                   ],
                 ),
