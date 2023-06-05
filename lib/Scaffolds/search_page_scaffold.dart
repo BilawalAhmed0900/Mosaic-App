@@ -215,7 +215,7 @@ class _SearchPageScaffoldState extends State<SearchPageScaffold> {
                             fontSize: width * height * 0.0000558,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -267,7 +267,7 @@ class _SearchPageScaffoldState extends State<SearchPageScaffold> {
                       itemCount: 4,
                     ),
                   ),
-                )
+                ),
               ],
             ),
             ValueListenableBuilder<int>(

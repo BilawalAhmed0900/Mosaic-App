@@ -17,6 +17,7 @@ class EditVideoScaffold extends StatefulWidget {
 
 class _EditVideoScaffoldState extends State<EditVideoScaffold> {
   late VideoEditorController _controller;
+  final ValueNotifier<bool> _showProgressCircle = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -50,89 +51,117 @@ class _EditVideoScaffoldState extends State<EditVideoScaffold> {
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: Colors.black,
-          child: Stack(
-            children: [
-              Center(
-                child: CoverViewer(controller: _controller),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.black,
+              child: Stack(
                 children: [
-                  SizedBox(
-                    height: height * 0.809,
+                  Center(
+                    child: CoverViewer(controller: _controller),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _controller.videoDuration.toString(),
-                        style: TextStyle(color: Colors.white, fontSize: width * height * 4.269e-5),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.012,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: width * 0.824,
-                        child: TrimSlider(
-                          controller: _controller,
-                          height: height * 0.037,
-                          child: TrimTimeline(
-                            controller: _controller,
+                        height: height * 0.809,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _controller.videoDuration.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: width * height * 4.269e-5),
                           ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: height * 0.012,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: width * 0.824,
+                            child: TrimSlider(
+                              controller: _controller,
+                              height: height * 0.037,
+                              child: TrimTimeline(
+                                controller: _controller,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.043),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop<XFile?>(null);
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: width * height * 5.911e-5,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                _showProgressCircle.value = true;
+                                _controller.exportVideo(onCompleted: (file) {
+                                  _showProgressCircle.value = false;
+                                  Navigator.of(context).pop<XFile?>(XFile(file.path));
+                                });
+                              },
+                              child: Text(
+                                "Done",
+                                style: TextStyle(
+                                  color: const Color(0xFFFFAF00),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: width * height * 5.911e-5,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.043),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop<XFile?>(null);
-                            },
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: width * height * 5.911e-5,
-                              ),
-                            ),),
-                        InkWell(
-                          onTap: () {
-                            _controller.exportVideo(onCompleted: (file) {
-                              Navigator.of(context).pop<XFile?>(XFile(file.path));
-                            });
-                          },
-                          child: Text(
-                            "Done",
-                            style: TextStyle(
-                              color: const Color(0xFFFFAF00),
-                              fontWeight: FontWeight.w600,
-                              fontSize: width * height * 5.911e-5,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: _showProgressCircle,
+              builder: (context, value, _) {
+                if (value) {
+                  return Container(
+                    color: Colors.black.withOpacity(0.33),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 25, width: double.infinity,),
+                        Text("Saving Video...", style: TextStyle(color: Colors.white),),
+                      ],
+                    ),
+                  );
+                }
+
+                return Container();
+              },
+            ),
+          ],
         ),
       ),
     );

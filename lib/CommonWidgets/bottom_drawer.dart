@@ -1,7 +1,9 @@
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mosaic_app/Data/user.dart';
 import 'package:mosaic_app/Scaffolds/account_page_scaffold.dart';
+import 'package:mosaic_app/Scaffolds/welcome_back_scaffold.dart';
 
 import '../Scaffolds/new_post_base_scaffold.dart';
 import '../Scaffolds/notification_page_scaffold.dart';
@@ -180,7 +182,20 @@ Widget buildBottomDrawer(BuildContext context, BottomDrawerController controller
                 width: width * 0.818,
                 height: height * 0.0665,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+
+                    User.getInstance().userId = -1;
+                    User.getInstance().email = "";
+                    User.getInstance().oAuth2 = "";
+                    User.getInstance().firstName = "";
+                    User.getInstance().lastName = "";
+                    User.getInstance().userName = "";
+
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                      return const WelcomeBackScaffold();
+                    }));
+                  },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: const Color(0xFFF4F4F5),
                     shape: RoundedRectangleBorder(

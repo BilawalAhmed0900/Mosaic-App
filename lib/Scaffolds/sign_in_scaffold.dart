@@ -169,7 +169,8 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                           return;
                         }
 
-                        User.getInstance().oAuth2 = jsonBody["data"]["token"].toString();
+                        User.getInstance().userId = jsonBody["data"]["id"] as int;
+                        // User.getInstance().oAuth2 = jsonBody["token"]["token"] as String;
                         User.getInstance().userName = jsonBody["data"]["userName"] as String;
                         User.getInstance().email = jsonBody["data"]["email"] as String;
                         User.getInstance().firstName = (jsonBody["data"]["firstName"] as String?) ?? "";

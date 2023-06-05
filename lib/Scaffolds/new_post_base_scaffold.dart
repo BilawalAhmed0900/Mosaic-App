@@ -21,6 +21,12 @@ Future<XFile?> editVideo(BuildContext context, XFile? file) async {
   }));
 }
 
+void uploadVideo(BuildContext context, XFile? file) {
+  if (file == null) return;
+
+
+}
+
 class NewPostBaseScaffold extends StatefulWidget {
   const NewPostBaseScaffold({Key? key}) : super(key: key);
 
@@ -92,7 +98,7 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                                   preferredCameraDevice: CameraDevice.front)
                               .then((value) {
                             editVideo(context, value).then((value) {
-                              print(value?.path);
+                              uploadVideo(context, value);
                             });
                           });
                         },
@@ -129,7 +135,7 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                               .pickVideo(source: ImageSource.gallery)
                               .then((value) {
                             editVideo(context, value).then((value) {
-                              print(value?.path);
+                              uploadVideo(context, value);
                             });
                           });
                         },
