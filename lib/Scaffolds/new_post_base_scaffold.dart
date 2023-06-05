@@ -2,7 +2,7 @@ import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mosaic_app/CommonWidgets/BottomDrawer.dart';
+import 'package:mosaic_app/CommonWidgets/bottom_drawer.dart';
 import 'package:mosaic_app/Scaffolds/edit_video_scaffold.dart';
 import 'package:video_editor/video_editor.dart';
 

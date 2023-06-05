@@ -9,7 +9,7 @@ import 'package:mosaic_app/Scaffolds/settings_page_scaffold.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 
-import '../CommonWidgets/BottomDrawer.dart';
+import '../CommonWidgets/bottom_drawer.dart';
 
 class WatchVideoScaffold extends StatefulWidget {
   const WatchVideoScaffold({Key? key}) : super(key: key);

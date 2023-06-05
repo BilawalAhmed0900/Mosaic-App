@@ -1,6 +1,6 @@
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:mosaic_app/CommonWidgets/BottomDrawer.dart';
+import 'package:mosaic_app/CommonWidgets/bottom_drawer.dart';
 
 import '../CommonWidgets/common_setting_search_notification.dart';
 

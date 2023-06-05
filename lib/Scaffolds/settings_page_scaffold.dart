@@ -1,7 +1,7 @@
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mosaic_app/CommonWidgets/BottomDrawer.dart';
+import 'package:mosaic_app/CommonWidgets/bottom_drawer.dart';
 import 'package:mosaic_app/Scaffolds/notification_page_scaffold.dart';
 
 import '../CommonWidgets/common_setting_search_notification.dart';
