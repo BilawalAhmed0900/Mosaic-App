@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mosaic_app/Scaffolds/tips_page_1.dart';
+import 'package:mosaic_app/Scaffolds/tips_page_1_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/welcome_back_scaffold.dart';
 
 class SplashScreenPageScaffold extends StatelessWidget {
@@ -13,8 +13,9 @@ class SplashScreenPageScaffold extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     Future.delayed(const Duration(seconds: 1)).then((value) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-        return const WelcomeBackScaffold();
+        return const TipsPage1Scaffold();
       }));
     });
 

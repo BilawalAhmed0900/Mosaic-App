@@ -80,6 +80,9 @@ flutter:
     - assets/svgs/TipsPage1Svg1.svg
     - assets/svgs/TipsPage1Svg2.svg
     - assets/images/welcome_back_page_background.png
+    - assets/images/tip_page_1_background.png
+    - assets/images/tip_page_2_background.png
+    - assets/images/tip_page_3_background.png
     - assets/svgs/mosaic_written.svg
     - assets/svgs/arrow_upward.svg
     - assets/svgs/arrow_downward.svg
