@@ -2,11 +2,12 @@ class User {
   int userId;
   String email;
   String userName;
-  String oAuth2;
   String firstName;
   String lastName;
+  String token;
+  List<int> interests;
 
-  User._(): userId = -1, email = "", userName = "", oAuth2 = "", firstName = "", lastName = "";
+  User._(): userId = -1, email = "", userName = "", firstName = "", lastName = "", token = "", interests = [];
 
   static final User _user = User._();
   static User getInstance() {

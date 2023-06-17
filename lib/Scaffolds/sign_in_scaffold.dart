@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
 import 'package:mosaic_app/Data/user.dart';
+import 'package:mosaic_app/Scaffolds/initial_interest_user_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/sign_up_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/watch_page_scaffold.dart';
 
@@ -148,15 +149,14 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       Encoding encoding = Encoding.getByName("utf-8")!;
 
                       post(uri, headers: headers, body: jsonString, encoding: encoding).then((value) {
-                        print(value.body);
                         Map<String, dynamic> jsonBody = json.decode(value.body);
-                        print(jsonBody);
                         if (jsonBody["status"] as int == 0) {
-                          User.getInstance().oAuth2 = "";
                           User.getInstance().userName = "";
                           User.getInstance().email = "";
                           User.getInstance().firstName = "";
                           User.getInstance().lastName = "";
+                          User.getInstance().token = "";
+                          User.getInstance().interests.clear();
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -170,16 +170,36 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                         }
 
                         User.getInstance().userId = jsonBody["data"]["id"] as int;
-                        // User.getInstance().oAuth2 = jsonBody["token"]["token"] as String;
                         User.getInstance().userName = jsonBody["data"]["userName"] as String;
                         User.getInstance().email = jsonBody["data"]["email"] as String;
                         User.getInstance().firstName = (jsonBody["data"]["firstName"] as String?) ?? "";
                         User.getInstance().lastName = (jsonBody["data"]["lastName"] as String?) ?? "";
+                        User.getInstance().token = (jsonBody["token"]["token"] as String?) ?? "";
+                        User.getInstance().interests.clear();
 
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                          return const WatchVideoScaffold();
-                        }));
+                        get(Uri.parse("$HOST:$PORT/$INTEREST_GET_PATH"), headers: {"authorization": "Bearer ${User.getInstance().token}"})
+                            .then((value) {
+                          Map<String, dynamic> jsonBody = json.decode(value.body);
+                          if ((jsonBody["data"] as List).isEmpty) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return const InitialInterestUser();
+                            }));
+                          } else {
+                            User.getInstance().interests.insertAll(
+                                  0,
+                                  (jsonBody["data"] as List<dynamic>).map(
+                                    (e) {
+                                      return e as int;
+                                    },
+                                  ),
+                                );
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return const WatchVideoScaffold();
+                            }));
+                          }
+                        });
                       }).onError((error, stackTrace) {
                         showDialog(
                             context: context,

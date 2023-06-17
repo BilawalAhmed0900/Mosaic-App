@@ -187,10 +187,11 @@ Widget buildBottomDrawer(BuildContext context, BottomDrawerController controller
 
                     User.getInstance().userId = -1;
                     User.getInstance().email = "";
-                    User.getInstance().oAuth2 = "";
+                    User.getInstance().token = "";
                     User.getInstance().firstName = "";
                     User.getInstance().lastName = "";
                     User.getInstance().userName = "";
+                    User.getInstance().interests.clear();
 
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                       return const WelcomeBackScaffold();
