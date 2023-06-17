@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class InterestSelectionWidget extends StatefulWidget {
   final String interestName;
   final Color unselectedColor, selectedColor;
-  final VoidCallback onTap;
+  final void Function(bool) onTap;
 
   const InterestSelectionWidget(this.interestName,
       {Key? key, required this.unselectedColor, required this.selectedColor, required this.onTap})
@@ -27,7 +27,7 @@ class _InterestSelectionWidgetState extends State<InterestSelectionWidget> {
           _checked = !_checked;
         });
 
-        widget.onTap();
+        widget.onTap(_checked);
       },
       splashFactory: NoSplash.splashFactory,
       splashColor: Colors.transparent,
@@ -36,14 +36,14 @@ class _InterestSelectionWidgetState extends State<InterestSelectionWidget> {
         height: width * height * 1.314e-4,
         decoration: BoxDecoration(
           color: _checked ? widget.selectedColor : widget.unselectedColor,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(width * height * 1.051e-4),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 4, right: 20),
           child: Row(
             children: [
               CircleAvatar(
-                radius: 16,
+                radius: width * height * 5.255e-5,
                 backgroundColor: _checked ? Colors.black : Colors.white,
                 child: _checked
                     ? const Icon(
