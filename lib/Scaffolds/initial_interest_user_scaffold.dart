@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mosaic_app/CommonWidgets/InterestSelectionWidget.dart';
 
 class InitialInterestUser extends StatefulWidget {
   const InitialInterestUser({Key? key}) : super(key: key);
@@ -81,6 +82,113 @@ class _InitialInterestUserState extends State<InitialInterestUser> {
                 style: TextStyle(
                   fontSize: width * height * 4.926e-5,
                 ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.037,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Health",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFFFDD9B),
+                    onTap: () {},
+                  ),
+                  SizedBox(width: width * 0.021,),
+                  InterestSelectionWidget(
+                    "Sports",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFD8CEFF),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.01,),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Business and finance",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFFFDD9B),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.01,),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Science",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFFFDD9B),
+                    onTap: () {},
+                  ),
+                  SizedBox(width: width * 0.021,),
+                  InterestSelectionWidget(
+                    "Environment",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFD8CEFF),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.01,),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Politics",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFC6FFC5),
+                    onTap: () {},
+                  ),
+                  SizedBox(width: width * 0.021,),
+                  InterestSelectionWidget(
+                    "Human interest",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFFFDD9B),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.01,),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Technology",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFC6FFC5),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.01,),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.043),
+              child: Row(
+                children: [
+                  InterestSelectionWidget(
+                    "Entertainment and lifestyle",
+                    unselectedColor: const Color(0xFF747480).withOpacity(0.08),
+                    selectedColor: const Color(0xFFCEEFFF),
+                    onTap: () {},
+                  ),
+                ],
               ),
             ),
           ],
