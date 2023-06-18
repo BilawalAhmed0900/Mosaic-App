@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -169,6 +170,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                           return;
                         }
 
+                        print(jsonBody);
                         User.getInstance().userId = jsonBody["data"]["id"] as int;
                         User.getInstance().userName = jsonBody["data"]["userName"] as String;
                         User.getInstance().email = jsonBody["data"]["email"] as String;
@@ -177,8 +179,8 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                         User.getInstance().token = (jsonBody["token"]["token"] as String?) ?? "";
                         User.getInstance().interests.clear();
 
-                        get(Uri.parse("$HOST:$PORT/$INTEREST_GET_USER_PATH"), headers: {"authorization": "Bearer ${User.getInstance().token}"})
-                            .then((value) {
+                        get(Uri.parse("$HOST:$PORT/$INTEREST_GET_USER_PATH"),
+                            headers: {"authorization": "Bearer ${User.getInstance().token}"}).then((value) {
                           Map<String, dynamic> jsonBody = json.decode(value.body);
                           if ((jsonBody["data"] as List).isEmpty) {
                             Navigator.of(context).pop();
@@ -190,10 +192,12 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                                   0,
                                   (jsonBody["data"] as List<dynamic>).map(
                                     (e) {
-                                      return e as int;
+                                      return ((e as Map<String, dynamic>)["id"]) as int;
                                     },
                                   ),
                                 );
+
+                            print(User.getInstance().interests);
                             Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                               return const WatchVideoScaffold();
