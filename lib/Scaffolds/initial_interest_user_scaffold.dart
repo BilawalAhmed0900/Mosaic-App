@@ -315,26 +315,25 @@ class _InitialInterestUserState extends State<InitialInterestUser> {
                                     User.getInstance().interests.clear();
 
                                     showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const AlertDialog(
-                                            title: Text("Token Expired"),
-                                            content: Text("Please login again"),
-                                          );
-                                        });
-
+                                      context: context,
+                                      builder: (context) {
+                                        return const AlertDialog(
+                                          title: Text("Token Expired"),
+                                          content: Text("Please login again"),
+                                        );
+                                      },
+                                    ).then((value) {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                        return const WelcomeBackScaffold();
+                                      }));
+                                    });
+                                  } else {
                                     Navigator.of(context).pop();
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                      return const WelcomeBackScaffold();
+                                      return const WatchVideoScaffold();
                                     }));
-
-                                    return;
                                   }
-
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                    return const WatchVideoScaffold();
-                                  }));
                                 });
                               },
                         style: OutlinedButton.styleFrom(
