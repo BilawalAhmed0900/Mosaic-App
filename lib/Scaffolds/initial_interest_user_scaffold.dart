@@ -307,12 +307,7 @@ class _InitialInterestUserState extends State<InitialInterestUser> {
                                 post(uri, headers: headers, body: jsonString, encoding: encoding).then((value) {
                                   Map<String, dynamic> jsonBody = json.decode(value.body);
                                   if (jsonBody["status"] == 0) {
-                                    User.getInstance().userName = "";
-                                    User.getInstance().email = "";
-                                    User.getInstance().firstName = "";
-                                    User.getInstance().lastName = "";
-                                    User.getInstance().token = "";
-                                    User.getInstance().interests.clear();
+                                    User.getInstance().clearUser();
 
                                     showDialog(
                                       context: context,
@@ -329,6 +324,10 @@ class _InitialInterestUserState extends State<InitialInterestUser> {
                                       }));
                                     });
                                   } else {
+                                    for (int interestId in interestIds) {
+                                      User.getInstance().interests[interestId] = idToInterestName[interestId]!;
+                                    }
+
                                     Navigator.of(context).pop();
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                                       return const WatchVideoScaffold();

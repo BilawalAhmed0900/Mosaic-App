@@ -152,12 +152,7 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                       post(uri, headers: headers, body: jsonString, encoding: encoding).then((value) {
                         Map<String, dynamic> jsonBody = json.decode(value.body);
                         if (jsonBody["status"] as int == 0) {
-                          User.getInstance().userName = "";
-                          User.getInstance().email = "";
-                          User.getInstance().firstName = "";
-                          User.getInstance().lastName = "";
-                          User.getInstance().token = "";
-                          User.getInstance().interests.clear();
+                          User.getInstance().clearUser();
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -188,11 +183,10 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                               return const InitialInterestUser();
                             }));
                           } else {
-                            User.getInstance().interests.insertAll(
-                                  0,
+                            User.getInstance().interests.addEntries(
                                   (jsonBody["data"] as List<dynamic>).map(
                                     (e) {
-                                      return ((e as Map<String, dynamic>)["id"]) as int;
+                                      return MapEntry<int, String>(jsonBody["data"]["id"] as int, jsonBody["data"]["name"] as String);
                                     },
                                   ),
                                 );

@@ -5,12 +5,22 @@ class User {
   String firstName;
   String lastName;
   String token;
-  List<int> interests;
+  Map<int, String> interests;
 
-  User._(): userId = -1, email = "", userName = "", firstName = "", lastName = "", token = "", interests = [];
+  User._(): userId = -1, email = "", userName = "", firstName = "", lastName = "", token = "", interests = {};
 
   static final User _user = User._();
   static User getInstance() {
     return _user;
+  }
+
+  void clearUser() {
+    userId = -1;
+    email = "";
+    userName = "";
+    firstName = "";
+    lastName = "";
+    token = "";
+    interests.clear();
   }
 }
