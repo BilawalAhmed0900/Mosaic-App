@@ -53,19 +53,28 @@ class TipsPage1Scaffold extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Experience", style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),),
+                            Text(
+                              "Experience",
+                              style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),
+                            ),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("unique perspective", style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),),
+                            Text(
+                              "unique perspective",
+                              style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),
+                            ),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("on breaking news", style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),),
+                            Text(
+                              "on breaking news",
+                              style: TextStyle(fontWeight: FontWeight.w700, fontSize: width * height * 9.195e-5),
+                            ),
                           ],
                         ),
                       ],
@@ -77,25 +86,37 @@ class TipsPage1Scaffold extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Mosaic is a short video platform offering", style: TextStyle(fontSize: width * height * 4.926e-5),),
+                  Text(
+                    "Mosaic is a short video platform offering",
+                    style: TextStyle(fontSize: width * height * 4.926e-5),
+                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("unique perspectives on breaking news", style: TextStyle(fontSize: width * height * 4.926e-5),),
+                  Text(
+                    "unique perspectives on breaking news",
+                    style: TextStyle(fontSize: width * height * 4.926e-5),
+                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("and trending topics through user-", style: TextStyle(fontSize: width * height * 4.926e-5),),
+                  Text(
+                    "and trending topics through user-",
+                    style: TextStyle(fontSize: width * height * 4.926e-5),
+                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("generated content", style: TextStyle(fontSize: width * height * 4.926e-5),),
+                  Text(
+                    "generated content",
+                    style: TextStyle(fontSize: width * height * 4.926e-5),
+                  ),
                 ],
               ),
               SizedBox(height: height * 0.046),

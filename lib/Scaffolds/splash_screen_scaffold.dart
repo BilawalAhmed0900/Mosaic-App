@@ -24,11 +24,15 @@ class SplashScreenPageScaffold extends StatelessWidget {
         child: Container(
           color: const Color(0xFFBBBBBB),
           child: Center(
-            child: SvgPicture.asset("assets/svgs/logo.svg", width: width * 0.458, height: height * 0.0321, theme: const SvgTheme(currentColor: Colors.black),),
+            child: SvgPicture.asset(
+              "assets/svgs/logo.svg",
+              width: width * 0.458,
+              height: height * 0.0321,
+              theme: const SvgTheme(currentColor: Colors.black),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
