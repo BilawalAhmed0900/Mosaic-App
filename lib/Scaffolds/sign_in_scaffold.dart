@@ -172,6 +172,8 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                         User.getInstance().firstName = (jsonBody["data"]["firstName"] as String?) ?? "";
                         User.getInstance().lastName = (jsonBody["data"]["lastName"] as String?) ?? "";
                         User.getInstance().token = (jsonBody["token"]["token"] as String?) ?? "";
+                        User.getInstance().profilePictureUrl = (jsonBody["data"]["profile_picture"] as String?) ?? "";
+                        User.getInstance().bio = (jsonBody["data"]["bio"] as String?) ?? "";
                         User.getInstance().interests.clear();
 
                         get(Uri.parse("$HOST:$PORT/$INTEREST_GET_USER_PATH"),
@@ -183,10 +185,12 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                               return const InitialInterestUser();
                             }));
                           } else {
+                            print(jsonBody["data"].runtimeType);
                             User.getInstance().interests.addEntries(
                                   (jsonBody["data"] as List<dynamic>).map(
                                     (e) {
-                                      return MapEntry<int, String>(jsonBody["data"]["id"] as int, jsonBody["data"]["name"] as String);
+                                      print(e["id"].runtimeType);
+                                      return MapEntry<int, String>(e["id"] as int, e["name"] as String);
                                     },
                                   ),
                                 );
