@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mosaic_app/CommonWidgets/bottom_drawer.dart';
 import 'package:mosaic_app/Scaffolds/edit_video_scaffold.dart';
+import 'package:mosaic_app/Scaffolds/upload_video_scaffold.dart';
 import 'package:video_editor/video_editor.dart';
 
 import '../CommonWidgets/common_setting_search_notification.dart';
@@ -13,18 +14,11 @@ import '../CommonWidgets/common_setting_search_notification.dart';
 Future<XFile?> editVideo(BuildContext context, XFile? file) async {
   if (file == null) return null;
 
-  return await Navigator.of(context)
-      .push<XFile?>(MaterialPageRoute(builder: (context) {
+  return await Navigator.of(context).push<XFile?>(MaterialPageRoute(builder: (context) {
     return EditVideoScaffold(
       originalVideo: file,
     );
   }));
-}
-
-void uploadVideo(BuildContext context, XFile? file) {
-  if (file == null) return;
-
-
 }
 
 class NewPostBaseScaffold extends StatefulWidget {
@@ -36,7 +30,6 @@ class NewPostBaseScaffold extends StatefulWidget {
 
 class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
   final BottomDrawerController _controller = BottomDrawerController();
-
   final ValueNotifier<int> _backgroundOpacity = ValueNotifier<int>(0);
 
   void setControllerOpenBoolState(bool state) {
@@ -79,9 +72,7 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                 SizedBox(
                   height: height * 0.0652,
                 ),
-                ...commonSettingSearchNotification(
-                    context, "New Post", _controller,
-                    showAccountIcon: false, showSettingIcon: false),
+                ...commonSettingSearchNotification(context, "New Post", _controller, showAccountIcon: false, showSettingIcon: false),
                 SizedBox(
                   height: height * 0.044,
                 ),
@@ -92,13 +83,13 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ImagePicker()
-                              .pickVideo(
-                                  source: ImageSource.camera,
-                                  preferredCameraDevice: CameraDevice.front)
-                              .then((value) {
+                          ImagePicker().pickVideo(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front).then((value) {
                             editVideo(context, value).then((value) {
-                              uploadVideo(context, value);
+                              if (value == null) return;
+
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                return UploadVideoScaffold(file: value);
+                              }));
                             });
                           });
                         },
@@ -131,11 +122,13 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                       ),
                       InkWell(
                         onTap: () {
-                          ImagePicker()
-                              .pickVideo(source: ImageSource.gallery)
-                              .then((value) {
+                          ImagePicker().pickVideo(source: ImageSource.gallery).then((value) {
                             editVideo(context, value).then((value) {
-                              uploadVideo(context, value);
+                              if (value == null) return;
+
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                return UploadVideoScaffold(file: value);
+                              }));
                             });
                           });
                         },

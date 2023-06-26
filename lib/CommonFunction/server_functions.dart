@@ -24,3 +24,45 @@ Future<Map<String, dynamic>> commonPut(String uri, Map<String, String> headers, 
 
   return jsonBody;
 }
+
+Future<Map<String, dynamic>> commonPost(String uri, Map<String, String> headers, Map<String, dynamic> body, BuildContext context) async {
+  Response resp = await post(Uri.parse(uri), body: body, headers: headers);
+  Map<String, dynamic> jsonBody = json.decode(resp.body);
+  if ((jsonBody["status"] as int) == 0) {
+    if (context.mounted) {
+      await showDialog(context: context, builder: (context) {
+        return const AlertDialog(title: Text("User timed-out"), content: Text("Please login again"),);
+      });
+
+      if (context.mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+          return const WelcomeBackScaffold();
+        }));
+      }
+    }
+  }
+
+  return jsonBody;
+}
+
+Future<Map<String, dynamic>> commonGet(String uri, Map<String, String> headers, BuildContext context) async {
+  Response resp = await get(Uri.parse(uri), headers: headers);
+  Map<String, dynamic> jsonBody = json.decode(resp.body);
+  if ((jsonBody["status"] as int) == 0) {
+    if (context.mounted) {
+      await showDialog(context: context, builder: (context) {
+        return const AlertDialog(title: Text("User timed-out"), content: Text("Please login again"),);
+      });
+
+      if (context.mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+          return const WelcomeBackScaffold();
+        }));
+      }
+    }
+  }
+
+  return jsonBody;
+}

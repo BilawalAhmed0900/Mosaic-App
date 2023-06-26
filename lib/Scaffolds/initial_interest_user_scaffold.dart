@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
-import 'package:mosaic_app/CommonWidgets/InterestSelectionWidget.dart';
+import 'package:mosaic_app/CommonWidgets/interest_selection_widget.dart';
 import 'package:mosaic_app/Scaffolds/sign_in_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/watch_page_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/welcome_back_scaffold.dart';
