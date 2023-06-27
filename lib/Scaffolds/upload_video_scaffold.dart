@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aws_s3_upload/aws_s3_upload.dart';
@@ -6,9 +7,11 @@ import 'package:aws_s3_upload/enum/acl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mosaic_app/Scaffolds/new_post_published_scaffold.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../CommonFunction/estimate_time.dart';
 import '../CommonFunction/file_size.dart';
 import '../CommonFunction/server_functions.dart';
 import '../Constants/constants.dart';
@@ -24,8 +27,11 @@ class UploadVideoScaffold extends StatefulWidget {
 }
 
 class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
+  final ValueNotifier<bool> _thumbnailSpinner = ValueNotifier<bool>(true);
   final ValueNotifier<double?> _progressBarValue = ValueNotifier<double?>(null);
   final ValueNotifier<bool> _postButtonEnabled = ValueNotifier<bool>(false);
+  final ValueNotifier<String> _estimateSpeed = ValueNotifier<String>("Estimating speed");
+
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _fileUrlController = TextEditingController();
 
@@ -44,10 +50,23 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
   void initState() {
     super.initState();
 
-    uploadVideo(widget.file.path).then((value) {
-      _fileUrlController.text = value!;
-      _postButtonEnabled.value = true;
-      _progressBarValue.value = 1.0;
+    getTemporaryDirectory().then((tempDirectory) async {
+      const int tempFileSize = 100000;
+      File tempFile = File("${tempDirectory.path}/1");
+      tempFile.writeAsBytesSync(List<int>.filled(tempFileSize, 0), flush: true);
+
+      final stopWatch = Stopwatch()..start();
+      await uploadVideo(tempFile.path);
+      double speed = tempFileSize / stopWatch.elapsed.inSeconds;
+
+      _estimateSpeed.value = "Almost ${estimateTime(File(widget.file.path).lengthSync(), speed)}";
+
+      uploadVideo(widget.file.path).then((value) {
+        _fileUrlController.text = value!;
+        _postButtonEnabled.value = true;
+        _progressBarValue.value = 1.0;
+        _thumbnailSpinner.value = false;
+      });
     });
   }
 
@@ -181,24 +200,30 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
                               width: width * 0.16,
                               height: height * 0.074,
                             ),
-                            Container(
-                              width: width * 0.16,
-                              height: height * 0.074,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black.withOpacity(0.33),
-                              ),
-                              child: SizedBox(
-                                width: width * 0.053,
-                                height: height * 0.025,
-                                child: const Center(
-                                  child: CircularProgressIndicator.adaptive(
-                                    backgroundColor: Colors.transparent,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ValueListenableBuilder(valueListenable: _thumbnailSpinner, builder: (context, value, _) {
+                              if (value) {
+                                return Container(
+                                  width: width * 0.16,
+                                  height: height * 0.074,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.black.withOpacity(0.33),
                                   ),
-                                ),
-                              ),
-                            ),
+                                  child: SizedBox(
+                                    width: width * 0.053,
+                                    height: height * 0.025,
+                                    child: const Center(
+                                      child: CircularProgressIndicator.adaptive(
+                                        backgroundColor: Colors.transparent,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              return Container();
+                            }),
                           ],
                         );
                       },
@@ -208,54 +233,67 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
                   SizedBox(
                     width: width * 0.715,
                     height: height * 0.071,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(widget.file.name.length > 18 ? "${widget.file.name.substring(0, 15)}..." : widget.file.name),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: width * 0.128,
-                                height: height * 0.02,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: const Color(0xFFE8E8E8),
-                                  ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(widget.file.name.length > 18 ? "${widget.file.name.substring(0, 15)}..." : widget.file.name),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: width * 0.128,
+                              height: height * 0.02,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: const Color(0xFFE8E8E8),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    getFileSize(widget.file.path, 1),
-                                    style: TextStyle(
-                                      fontSize: width * height * 2.627e-5,
-                                      color: const Color(0xFF1C1C1C),
-                                    ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  getFileSize(widget.file.path, 1),
+                                  style: TextStyle(
+                                    fontSize: width * height * 2.627e-5,
+                                    color: const Color(0xFF1C1C1C),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.012,
-                          ),
-                          SizedBox(
-                            width: width * 0.715,
-                            child: ValueListenableBuilder(valueListenable: _progressBarValue, builder: (context, value, _) {
-                              return LinearProgressIndicator(
-                                backgroundColor: Colors.black.withOpacity(0.04),
-                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
-                                value: value,
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.012,
+                        ),
+                        SizedBox(
+                          width: width * 0.715,
+                          child: ValueListenableBuilder(
+                              valueListenable: _progressBarValue,
+                              builder: (context, value, _) {
+                                return LinearProgressIndicator(
+                                  backgroundColor: Colors.black.withOpacity(0.04),
+                                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
+                                  value: value,
+                                );
+                              }),
+                        ),
+                        SizedBox(
+                          width: width * 0.715,
+                          child: ValueListenableBuilder(
+                              valueListenable: _estimateSpeed,
+                              builder: (context, value, _) {
+                                return Text(
+                                  value,
+                                  style: TextStyle(
+                                    color: const Color(0xFF969696),
+                                    fontSize: width * height * 4.269e-5,
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -285,38 +323,52 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
                 ),
               ),
             ),
-            SizedBox(height: height * 0.401,),
+            SizedBox(
+              height: height * 0.401,
+            ),
             SizedBox(
               width: width * 0.914,
               height: height * 0.0665,
-              child: ValueListenableBuilder(valueListenable: _postButtonEnabled, builder: (context, value, _) {
-                return OutlinedButton(
-                  onPressed: !value ? null : () async {
-                    Map<String, dynamic> result = await commonPost("$HOST:$PORT/api/stance/",
-                        {"authorization": "Bearer ${User.getInstance().token}"}, {"title": widget.file.name, "content": _descriptionController.text, "videoUrl": _fileUrlController.text, "userId": User.getInstance().userId.toString()}, context);
+              child: ValueListenableBuilder(
+                  valueListenable: _postButtonEnabled,
+                  builder: (context, value, _) {
+                    return OutlinedButton(
+                      onPressed: !value
+                          ? null
+                          : () async {
+                              Map<String, dynamic> result = await commonPost(
+                                  "$HOST:$PORT/api/stance/",
+                                  {"authorization": "Bearer ${User.getInstance().token}"},
+                                  {
+                                    "title": widget.file.name,
+                                    "content": _descriptionController.text,
+                                    "videoUrl": _fileUrlController.text,
+                                    "userId": User.getInstance().userId.toString()
+                                  },
+                                  context);
 
-                    if (context.mounted) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                        return NewPostPublishedScaffold(post: result);
-                      }));
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: !value ? Colors.white : Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(48),
-                    ),
-                  ),
-                  child: Text(
-                    "Post",
-                    style: TextStyle(
-                      color: !value ? Colors.black.withOpacity(0.5) : Colors.white,
-                      fontSize: width * height * 0.0000591,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
-              }),
+                              if (context.mounted) {
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                                  return NewPostPublishedScaffold(post: result);
+                                }));
+                              }
+                            },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: !value ? Colors.white : Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(48),
+                        ),
+                      ),
+                      child: Text(
+                        "Post",
+                        style: TextStyle(
+                          color: !value ? Colors.black.withOpacity(0.5) : Colors.white,
+                          fontSize: width * height * 0.0000591,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    );
+                  }),
             ),
           ],
         ),

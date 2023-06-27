@@ -47,6 +47,7 @@ dependencies:
   aws_s3_upload: ^1.5.0
   video_thumbnail: ^0.5.3
   percent_indicator: ^4.2.3
+  path_provider: ^2.0.15
 
 dependency_overrides:
   ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS
