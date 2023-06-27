@@ -57,7 +57,7 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
 
       final stopWatch = Stopwatch()..start();
       await uploadVideo(tempFile.path);
-      double speed = tempFileSize / stopWatch.elapsed.inSeconds;
+      double speed = tempFileSize * 1e6 / stopWatch.elapsed.inMicroseconds;
 
       String estimation = estimateTime(File(widget.file.path).lengthSync(), speed);
       if (estimation.isNotEmpty) {
