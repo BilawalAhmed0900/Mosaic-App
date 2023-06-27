@@ -8,6 +8,9 @@ String _printDuration(Duration duration) {
 }
 
 String estimateTime(int length, double speedInBytesPerSecond) {
+  if (speedInBytesPerSecond == 0) {
+    return "";
+  }
   int seconds = length ~/ speedInBytesPerSecond;
 
   return _printDuration(Duration(seconds: seconds));

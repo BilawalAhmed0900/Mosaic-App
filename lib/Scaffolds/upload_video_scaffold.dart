@@ -59,7 +59,13 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
       await uploadVideo(tempFile.path);
       double speed = tempFileSize / stopWatch.elapsed.inSeconds;
 
-      _estimateSpeed.value = "Almost ${estimateTime(File(widget.file.path).lengthSync(), speed)}";
+      String estimation = estimateTime(File(widget.file.path).lengthSync(), speed);
+      if (estimation.isNotEmpty) {
+        _estimateSpeed.value = "Almost $estimation";
+      } else {
+        _estimateSpeed.value = "Cannot estimate.";
+      }
+
 
       uploadVideo(widget.file.path).then((value) {
         _fileUrlController.text = value!;
