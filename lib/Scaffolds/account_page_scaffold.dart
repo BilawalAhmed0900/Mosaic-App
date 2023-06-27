@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:aws_s3_upload/aws_s3_upload.dart';
-import 'package:aws_s3_upload/enum/acl.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -153,26 +152,30 @@ class _AccountPageScaffoldState extends State<AccountPageScaffold> {
                                   XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
                                   if (file == null) return;
 
-                                  String? uri = await AwsS3.uploadFile(
-                                    accessKey: const String.fromEnvironment("AwsAccessKey"),
-                                    secretKey: const String.fromEnvironment("AwsSecretKey"),
-                                    bucket: "mosaic-app",
-                                    file: File(file.path),
-                                    region: "eu-north-1",
-                                    acl: ACL.public_read,
-                                  );
+                                  // String? uri = await AwsS3.uploadFile(
+                                  //   accessKey: const String.fromEnvironment("AwsAccessKey"),
+                                  //   secretKey: const String.fromEnvironment("AwsSecretKey"),
+                                  //   bucket: "mosaic-app",
+                                  //   file: File(file.path),
+                                  //   region: "eu-north-1",
+                                  //   acl: ACL.public_read,
+                                  // );
 
-                                  if (uri == null) return;
+                                  final result = await Amplify.Storage.uploadFile(localFile: AWSFile.fromPath(file.path), key: file.name).result;
 
-                                  if (context.mounted) {
-                                    Map<String, dynamic> result = await commonPut("$HOST:$PORT/api/user/${User.getInstance().userId}",
-                                        {"authorization": "Bearer ${User.getInstance().token}"}, {"profile_picture": uri}, context);
+                                  final uri = result.uploadedItem.key;
 
-                                    if ((result["status"] as int) == 1) {
-                                      User.getInstance().profilePictureUrl = uri;
-                                      setState(() {});
-                                    }
-                                  }
+                                  print(uri);
+
+                                  // if (context.mounted) {
+                                  //   Map<String, dynamic> result = await commonPut("$HOST:$PORT/api/user/${User.getInstance().userId}",
+                                  //       {"authorization": "Bearer ${User.getInstance().token}"}, {"profile_picture": uri}, context);
+                                  //
+                                  //   if ((result["status"] as int) == 1) {
+                                  //     User.getInstance().profilePictureUrl = uri;
+                                  //     setState(() {});
+                                  //   }
+                                  // }
                                 },
                                 child: Stack(
                                   children: [

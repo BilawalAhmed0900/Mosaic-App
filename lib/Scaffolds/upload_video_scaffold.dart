@@ -1,4 +1,3 @@
-import 'package:aws_s3_upload/aws_s3_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
