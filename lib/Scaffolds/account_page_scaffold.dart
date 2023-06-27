@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:aws_s3_upload/aws_s3_upload.dart';
+import 'package:aws_s3_upload/enum/acl.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -152,46 +153,47 @@ class _AccountPageScaffoldState extends State<AccountPageScaffold> {
                                   XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
                                   if (file == null) return;
 
-                                  // String? uri = await AwsS3.uploadFile(
-                                  //   accessKey: const String.fromEnvironment("AwsAccessKey"),
-                                  //   secretKey: const String.fromEnvironment("AwsSecretKey"),
-                                  //   bucket: "mosaic-app",
-                                  //   file: File(file.path),
-                                  //   region: "eu-north-1",
-                                  //   acl: ACL.public_read,
-                                  // );
+                                  String? uri = await AwsS3.uploadFile(
+                                    accessKey: const String.fromEnvironment("AwsAccessKey"),
+                                    secretKey: const String.fromEnvironment("AwsSecretKey"),
+                                    bucket: "mosaic-app",
+                                    file: File(file.path),
+                                    region: "eu-north-1",
+                                    acl: ACL.public_read,
+                                  );
 
-                                  final result = await Amplify.Storage.uploadFile(localFile: AWSFile.fromPath(file.path), key: file.name).result;
+                                  if (uri == null) return;
 
-                                  final uri = result.uploadedItem.key;
+                                  if (context.mounted) {
+                                    Map<String, dynamic> result = await commonPut("$HOST:$PORT/api/user/${User.getInstance().userId}",
+                                        {"authorization": "Bearer ${User.getInstance().token}"}, {"profile_picture": uri}, context);
 
-                                  print(uri);
-
-                                  // if (context.mounted) {
-                                  //   Map<String, dynamic> result = await commonPut("$HOST:$PORT/api/user/${User.getInstance().userId}",
-                                  //       {"authorization": "Bearer ${User.getInstance().token}"}, {"profile_picture": uri}, context);
-                                  //
-                                  //   if ((result["status"] as int) == 1) {
-                                  //     User.getInstance().profilePictureUrl = uri;
-                                  //     setState(() {});
-                                  //   }
-                                  // }
+                                    if ((result["status"] as int) == 1) {
+                                      User.getInstance().profilePictureUrl = uri;
+                                      setState(() {});
+                                    }
+                                  }
                                 },
                                 child: Stack(
                                   children: [
-                                    CircleAvatar(
-                                      radius: width * height * 1.182e-4,
-                                      backgroundColor: Colors.transparent,
-                                      child: User.getInstance().profilePictureUrl.isEmpty
-                                          ? Icon(
+                                    User.getInstance().profilePictureUrl.isNotEmpty
+                                        ? CircleAvatar(
+                                            radius: width * height * 1.182e-4,
+                                            backgroundColor: Colors.transparent,
+                                            foregroundImage: Image.network(
+                                              User.getInstance().profilePictureUrl,
+                                              fit: BoxFit.fitWidth,
+                                              width: width * 0.192,
+                                              height: height * 0.089,
+                                            ).image,
+                                          )
+                                        : CircleAvatar(
+                                            radius: width * height * 1.182e-4,
+                                            child: Icon(
                                               Icons.supervised_user_circle_rounded,
                                               size: width * height * 2.365e-4,
-                                            )
-                                          : Image.network(
-                                              User.getInstance().profilePictureUrl,
-                                              fit: BoxFit.scaleDown,
                                             ),
-                                    ),
+                                          ),
                                     Padding(
                                       padding: EdgeInsets.only(top: height * 0.054, left: width * 0.117),
                                       child: CircleAvatar(
