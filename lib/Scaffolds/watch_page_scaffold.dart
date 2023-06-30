@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mosaic_app/CommonFunction/server_functions.dart';
 import 'package:mosaic_app/Constants/constants.dart';
 import 'package:mosaic_app/Scaffolds/new_post_base_scaffold.dart';
 import 'package:mosaic_app/Scaffolds/notification_page_scaffold.dart';
@@ -12,6 +13,7 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 
 import '../CommonWidgets/bottom_drawer.dart';
+import '../Data/user.dart';
 
 class WatchVideoScaffold extends StatefulWidget {
   const WatchVideoScaffold({Key? key}) : super(key: key);
@@ -58,6 +60,7 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
 
   final BottomDrawerController _controller = BottomDrawerController();
   final ValueNotifier<int> _backgroundOpacity = ValueNotifier<int>(0);
+  final ValueNotifier<Map<String, dynamic>?> _stance = ValueNotifier<Map<String, dynamic>?>(null);
 
   void setControllerOpenBoolState(bool state) {
     if (state) {
@@ -84,6 +87,23 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    commonGet(
+      "$HOST:$PORT/api/stance/home/",
+      {
+        "authorization": "Bearer ${User.getInstance().token}",
+        "userId": User.getInstance().userId.toString(),
+      },
+      context,
+    ).then((value) {
+      print(value);
+      _stance.value = value;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -92,16 +112,23 @@ class _WatchVideoScaffoldState extends State<WatchVideoScaffold> {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              color: Colors.black,
-              child: const Center(
-                child: Text(
-                  "Video Here",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            ValueListenableBuilder(
+              valueListenable: _stance,
+              builder: (context, value, _) {
+                if (value == null) {
+                  return Container(
+                    color: Colors.black,
+                    child: const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  );
+                }
+
+                return Container(color: Colors.black,
+                  child: const Center(
+                    child: Text("Video Here", style: TextStyle(color: Colors.white),),
+                  ),);
+              },
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,

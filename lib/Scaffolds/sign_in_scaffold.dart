@@ -176,8 +176,12 @@ class _SignInScaffoldState extends State<SignInScaffold> {
                         User.getInstance().bio = (jsonBody["data"]["bio"] as String?) ?? "";
                         User.getInstance().interests.clear();
 
-                        get(Uri.parse("$HOST:$PORT/$INTEREST_GET_USER_PATH"),
-                            headers: {"authorization": "Bearer ${User.getInstance().token}"}).then((value) {
+                        get(
+                          Uri.parse("$HOST:$PORT/$INTEREST_GET_USER_PATH"),
+                          headers: {
+                            "authorization": "Bearer ${User.getInstance().token}",
+                          },
+                        ).then((value) {
                           Map<String, dynamic> jsonBody = json.decode(value.body);
                           if ((jsonBody["data"] as List).isEmpty) {
                             Navigator.of(context).pop();
