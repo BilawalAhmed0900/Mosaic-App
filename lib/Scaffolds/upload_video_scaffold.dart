@@ -31,9 +31,10 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
   final ValueNotifier<double?> _progressBarValue = ValueNotifier<double?>(null);
   final ValueNotifier<bool> _postButtonEnabled = ValueNotifier<bool>(false);
   final ValueNotifier<String> _estimateSpeed = ValueNotifier<String>("Estimating speed");
+  final ValueNotifier<String> _videoUrl = ValueNotifier<String>("");
+  final ValueNotifier<int> _stanceId = ValueNotifier<int>(-1);
 
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _fileUrlController = TextEditingController();
 
   Future<String?> uploadVideo(String filePath) async {
     return await AwsS3.uploadFile(
@@ -66,12 +67,28 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
         _estimateSpeed.value = "Cannot estimate.";
       }
 
-
-      uploadVideo(widget.file.path).then((value) {
-        _fileUrlController.text = value!;
-        _postButtonEnabled.value = true;
-        _progressBarValue.value = 1.0;
-        _thumbnailSpinner.value = false;
+      print({"authorization": "Bearer ${User.getInstance().token}"});
+      Future.delayed(const Duration(seconds: 0)).then((value) {
+        uploadVideo(widget.file.path).then((value) {
+          _videoUrl.value = value!;
+          commonPostWithFile(
+            "$HOST:$PORT/api/stance/",
+            {"authorization": "Bearer ${User.getInstance().token}"},
+            {
+              "title": widget.file.name,
+              "content": "",
+              "video": widget.file,
+              "videoUrl": _videoUrl.value,
+              "userId": User.getInstance().userId.toString()
+            },
+            context,
+          ).then((value) {
+            _stanceId.value = (value["data"] as Map)["id"] as int;
+            _postButtonEnabled.value = true;
+            _progressBarValue.value = 1.0;
+            _thumbnailSpinner.value = false;
+          });
+        });
       });
     });
   }
@@ -206,30 +223,32 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
                               width: width * 0.16,
                               height: height * 0.074,
                             ),
-                            ValueListenableBuilder(valueListenable: _thumbnailSpinner, builder: (context, value, _) {
-                              if (value) {
-                                return Container(
-                                  width: width * 0.16,
-                                  height: height * 0.074,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.black.withOpacity(0.33),
-                                  ),
-                                  child: SizedBox(
-                                    width: width * 0.053,
-                                    height: height * 0.025,
-                                    child: const Center(
-                                      child: CircularProgressIndicator.adaptive(
-                                        backgroundColor: Colors.transparent,
-                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ValueListenableBuilder(
+                                valueListenable: _thumbnailSpinner,
+                                builder: (context, value, _) {
+                                  if (value) {
+                                    return Container(
+                                      width: width * 0.16,
+                                      height: height * 0.074,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.black.withOpacity(0.33),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              }
+                                      child: SizedBox(
+                                        width: width * 0.053,
+                                        height: height * 0.025,
+                                        child: const Center(
+                                          child: CircularProgressIndicator.adaptive(
+                                            backgroundColor: Colors.transparent,
+                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
 
-                              return Container();
-                            }),
+                                  return Container();
+                                }),
                           ],
                         );
                       },
@@ -342,16 +361,15 @@ class _UploadVideoScaffoldState extends State<UploadVideoScaffold> {
                       onPressed: !value
                           ? null
                           : () async {
-                              Map<String, dynamic> result = await commonPost(
-                                  "$HOST:$PORT/api/stance/",
-                                  {"authorization": "Bearer ${User.getInstance().token}"},
-                                  {
-                                    "title": widget.file.name,
-                                    "content": _descriptionController.text,
-                                    "videoUrl": _fileUrlController.text,
-                                    "userId": User.getInstance().userId.toString()
-                                  },
-                                  context);
+                              Map<String, dynamic> result = await commonPut(
+                                "$HOST:$PORT/api/stance/update/",
+                                {"authorization": "Bearer ${User.getInstance().token}"},
+                                {
+                                  "id": _stanceId.value.toString(),
+                                  "content": _descriptionController.text,
+                                },
+                                context,
+                              );
 
                               if (context.mounted) {
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {

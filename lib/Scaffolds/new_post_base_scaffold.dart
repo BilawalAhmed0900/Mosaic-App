@@ -83,7 +83,12 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ImagePicker().pickVideo(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front).then((value) {
+                          ImagePicker()
+                              .pickVideo(
+                                  source: ImageSource.camera,
+                                  preferredCameraDevice: CameraDevice.front,
+                                  maxDuration: const Duration(seconds: 60))
+                              .then((value) {
                             editVideo(context, value).then((value) {
                               if (value == null) return;
 
@@ -122,7 +127,7 @@ class _NewPostBaseScaffoldState extends State<NewPostBaseScaffold> {
                       ),
                       InkWell(
                         onTap: () {
-                          ImagePicker().pickVideo(source: ImageSource.gallery).then((value) {
+                          ImagePicker().pickVideo(source: ImageSource.gallery, maxDuration: const Duration(seconds: 60)).then((value) {
                             editVideo(context, value).then((value) {
                               if (value == null) return;
 

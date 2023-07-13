@@ -162,6 +162,8 @@ class _AccountPageScaffoldState extends State<AccountPageScaffold> {
                                     acl: ACL.public_read,
                                   );
 
+                                  print(uri);
+
                                   if (uri == null) return;
 
                                   if (context.mounted) {
